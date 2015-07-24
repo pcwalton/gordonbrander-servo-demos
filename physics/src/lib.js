@@ -63,10 +63,16 @@ const classname = (element, name, isSet) => {
 const classnames = (element, classset) =>
   reducekv(classset, classname, element);
 
-// @TODO memoization
-const id = (x) => document.getElementById(x);
+const memoize = (f) => {
+  const cache = {};
+  return (x) => cache[x] ? cache[x] : cache[x] = f(x);
+};
+
+const id = memoize((x) => document.getElementById(x));
 
 const px = (n) => n + 'px';
+
+const translate3d = (x, y, z) => `translate3d(${x},${y},${z})`;
 
 // Create and append an element to parent. Returns an element.
 const el = (parent, kind, id, classset) => {
@@ -82,10 +88,10 @@ const on = (element, event, callback) => {
   return () => element.removeEventListener(event, callback);
 };
 
-const pos = (element, l, t) => style(element, {
-  left: Math.floor(l) + 'px',
-  top: Math.floor(t) + 'px'
-});
+const pos3d = (element, x, y, z) => {
+  element.style.transform = translate3d(px(x), px(y), px(z));
+  return element;
+};
 
 // Returns a random integer between min (included) and max (included)
 // Using Math.round() will give you a non-uniform distribution!
@@ -96,6 +102,6 @@ const getRandomKey = (o) => {
   const keys = Object.keys(o);
   const i = Math.floor(Math.random() * keys.length);
   return keys[i];
-}
+};
 
 const getRandomValue = (o) => o[getRandomKey(o)];
