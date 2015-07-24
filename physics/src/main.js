@@ -14,7 +14,6 @@ const NUM_PARTICLES = 1500;
 const stats = new Stats();
 stats.setMode(0); // 0: fps, 1: ms, 2: mb
 style(stats.domElement, {right: px(0), top: px(0)});
-
 containerEl.appendChild(stats.domElement);
 
 // Create a physics instance which uses the Verlet integration method
@@ -42,8 +41,7 @@ const createParticle = (x, y) => {
   const element = el(containerEl, 'div', particle.id, {particle: true});
   style(element, {
     background: getRandomValue(COLORS),
-    left: px(x),
-    top: px(y),
+    transform: translate3d(px(x), px(y), px(0)),
     width: px(particle.radius * 2),
     height: px(particle.radius * 2)
   });
@@ -73,7 +71,7 @@ loop(() => {
   physics.step();
 
   physics.particles.forEach(particle => {
-    pos(id(particle.id), particle.pos.x, particle.pos.y);
+    pos3d(id(particle.id), particle.pos.x, particle.pos.y, -1 * particle.vel.magSq());
   });
 
   stats.end();
