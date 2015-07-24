@@ -3,6 +3,7 @@ body {
   Instead, we set overflow:hidden on #container */
   background: #222;
   color: #fff;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -16,8 +17,17 @@ body {
 
 .particle {
   background: #fff;
-  border-radius: 100%;
+  border-radius: 50%;
   width: 10px;
   height: 10px;
   position: absolute;
+}
+
+.panels {
+  background: #333;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 200px;
+  z-index: 100;
 }
