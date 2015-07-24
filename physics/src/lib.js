@@ -91,3 +91,11 @@ const pos = (element, l, t) => style(element, {
 // Using Math.round() will give you a non-uniform distribution!
 const random = (min, max) =>
   Math.floor(Math.random() * (max - min + 1)) + min;
+
+const getRandomKey = (o) => {
+  const keys = Object.keys(o);
+  const i = Math.floor(Math.random() * keys.length);
+  return keys[i];
+}
+
+const getRandomValue = (o) => o[getRandomKey(o)];
