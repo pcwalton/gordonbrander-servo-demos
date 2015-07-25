@@ -2,6 +2,6 @@
 
 Kick off the demo server:
 
-  make run
+    make run
 
 ...then, open <http://localhost:8000>.
