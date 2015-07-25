@@ -15,9 +15,7 @@ const loop = (callback) => {
 // Results are collected into an array.
 const times = (n, a2b) => {
   const results = [];
-  for (var i = 0; i < n; i++) {
-    results.push(a2b(i));
-  };
+  for (var i = 0; i < n; i++) results.push(a2b(i));
   return results;
 };
 
@@ -88,10 +86,8 @@ const on = (element, event, callback) => {
   return () => element.removeEventListener(event, callback);
 };
 
-const pos3d = (element, x, y, z) => {
-  element.style.transform = translate3d(px(x), px(y), px(z));
-  return element;
-};
+const pos2d = (element, x, y) =>
+  style(element, {left: px(x), top: px(y)});
 
 // Returns a random integer between min (included) and max (included)
 // Using Math.round() will give you a non-uniform distribution!

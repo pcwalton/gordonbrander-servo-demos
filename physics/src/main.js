@@ -41,7 +41,8 @@ const createParticle = (x, y) => {
   const element = el(containerEl, 'div', particle.id, {particle: true});
   style(element, {
     background: getRandomValue(COLORS),
-    transform: translate3d(px(x), px(y), px(0)),
+    left: px(x),
+    top: px(y),
     width: px(particle.radius * 2),
     height: px(particle.radius * 2)
   });
@@ -57,7 +58,7 @@ physics.particles = particles;
 
 // @note Servo does not bubble events or dispatch to `window` or `document` yet.
 // Set listeners directly on element (in this case, `containerEl`).
-on(containerEl, 'mousemove', (event) => {
+on(containerEl, 'click', (event) => {
   mouseAttraction.target.x = event.clientX;
   mouseAttraction.target.y = event.clientY;
   mouseRepulsion.target.x = event.clientX;
@@ -71,7 +72,7 @@ loop(() => {
   physics.step();
 
   physics.particles.forEach(particle => {
-    pos3d(id(particle.id), particle.pos.x, particle.pos.y, -1 * particle.vel.magSq());
+    pos2d(id(particle.id), particle.pos.x, particle.pos.y);
   });
 
   stats.end();
