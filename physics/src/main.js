@@ -1,4 +1,5 @@
-const containerEl = document.getElementById('container');
+const containerEl = id('container');
+const fpsEl = id('fps');
 
 const COLORS = {
   magenta: '#f27',
@@ -9,12 +10,7 @@ const COLORS = {
 // I guess we don't have window.innerWidth?
 const WIDTH = 1000;
 const HEIGHT = 1000;
-const NUM_PARTICLES = 1500;
-
-const stats = new Stats();
-stats.setMode(0); // 0: fps, 1: ms, 2: mb
-style(stats.domElement, {right: px(0), top: px(0)});
-containerEl.appendChild(stats.domElement);
+const NUM_PARTICLES = 3000;
 
 // Create a physics instance which uses the Verlet integration method
 const physics = new Physics();
@@ -27,10 +23,17 @@ mouseRepulsion.strength = -1000;
 const mouseAttraction = new Attraction();
 mouseAttraction.strength = 200;
 
+const updateForce = (x, y) => {
+  mouseAttraction.target.x = x;
+  mouseAttraction.target.y = y;
+  mouseRepulsion.target.x = x;
+  mouseRepulsion.target.y = y;
+};
+
 // Create new particle element and particle object.
 const createParticle = (x, y) => {
-  const particle = new Particle(Math.random());
-  particle.setRadius(particle.mass * 10);
+  const particle = new Particle(0.1);
+  particle.setRadius(random(1, 5));
 
   const position = new Vector(x, y);
   particle.moveTo(position);
@@ -56,18 +59,24 @@ const particles = times(NUM_PARTICLES, _ =>
 
 physics.particles = particles;
 
+// Set force to random location to begin with.
+updateForce(random(0, WIDTH - 10), random(0, HEIGHT - 10));
+
 // @note Servo does not bubble events or dispatch to `window` or `document` yet.
 // Set listeners directly on element (in this case, `containerEl`).
-on(containerEl, 'click', (event) => {
-  mouseAttraction.target.x = event.clientX;
-  mouseAttraction.target.y = event.clientY;
-  mouseRepulsion.target.x = event.clientX;
-  mouseRepulsion.target.y = event.clientY;  
+on(containerEl, 'mousemove', (event) => {
+  updateForce(event.clientX, event.clientY);
 });
 
-loop(() => {
-  stats.begin();
+on(containerEl, 'mousedown', (event) => {
+  mouseRepulsion.setRadius(500);
+});
 
+on(containerEl, 'mouseup', (event) => {
+  mouseRepulsion.setRadius(200);
+});
+
+loop((t) => {
   // Advance physics simulation.
   physics.step();
 
@@ -75,5 +84,6 @@ loop(() => {
     pos2d(id(particle.id), particle.pos.x, particle.pos.y);
   });
 
-  stats.end();
+  const end = performance.now();
+  text(fpsEl, fps(t, end));
 });
