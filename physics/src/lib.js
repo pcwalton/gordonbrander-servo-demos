@@ -2,7 +2,7 @@ const loop = (callback) => {
   var next = true;
 
   const tick = (t) => {
-    callback();
+    callback(t);
     if (next) requestAnimationFrame(tick);
   }
 
@@ -61,6 +61,9 @@ const classname = (element, name, isSet) => {
 const classnames = (element, classset) =>
   reducekv(classset, classname, element);
 
+const text = (element, text) =>
+  element.textContent !== text ? set(element, 'textContent', text) : element;
+
 const memoize = (f) => {
   const cache = {};
   return (x) => cache[x] ? cache[x] : cache[x] = f(x);
@@ -101,3 +104,6 @@ const getRandomKey = (o) => {
 };
 
 const getRandomValue = (o) => o[getRandomKey(o)];
+
+const fps = (begin, end) => Math.round(1000 / (end - begin));
+
