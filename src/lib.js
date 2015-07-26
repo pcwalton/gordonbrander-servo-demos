@@ -84,10 +84,18 @@ const el = (parent, kind, id, classset) => {
   return child;
 };
 
+// Bind an event handler to an element
 const on = (element, event, callback) => {
   element.addEventListener(event, callback);
   return () => element.removeEventListener(event, callback);
 };
+
+// Bind an event handler for a list of events to an element.
+const onAny = (element, events, callback) => {
+  events.forEach(event => element.addEventListener(event, callback));
+  return () =>
+    events.forEach(event => element.removeEventListener(event, callback));
+}
 
 const pos2d = (element, x, y) =>
   style(element, {left: px(x), top: px(y)});
