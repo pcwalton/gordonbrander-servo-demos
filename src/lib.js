@@ -1,8 +1,12 @@
 const loop = (callback) => {
   var next = true;
+  var frames = 0;
+  var then = 0;
 
-  const tick = (t) => {
-    callback(t);
+  const tick = t => {
+    callback(frames, t, t - then);
+    frames = frames + 1;
+    then = t;
     if (next) requestAnimationFrame(tick);
   }
 
@@ -119,8 +123,6 @@ const getRandomKey = (o) => {
 };
 
 const getRandomValue = (o) => o[getRandomKey(o)];
-
-const fps = (begin, end) => Math.round(1000 / (end - begin));
 
 const getJson = (url) =>
   fetch(url).then(response => response.json());

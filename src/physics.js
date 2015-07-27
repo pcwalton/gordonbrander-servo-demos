@@ -69,15 +69,14 @@ events(containerEl, {
     updateForce(event.clientX, event.clientY);
   },
   mousedown(event) {
-    mouseRepulsion.setRadius(500);
+    mouseRepulsion.setRadius(300);
   },
   mouseup(event) {
     mouseRepulsion.setRadius(200);
   }
 });
 
-var prevt = performance.now();
-loop(t => {
+loop((frames, t, dt) => {
   // Advance physics simulation.
   physics.step();
 
@@ -85,9 +84,8 @@ loop(t => {
     pos2d(id(particle.id), particle.pos.x, particle.pos.y);
   });
 
-  const end = performance.now();
-
-  const endt = performance.now();
-  text(fpsEl, fps(prevt, endt));
-  prevt = endt;
+  // Calc delta between last and current frame start
+  // + delta between frame start and frame end.
+  const fps = Math.round(1000 / (dt + (performance.now() - t)))
+  text(fpsEl, `FPS: ${fps}`);
 });
