@@ -84,17 +84,24 @@ const el = (parent, kind, id, classset) => {
   return child;
 };
 
-// Bind an event handler to an element
+// Bind an event handler to an element, returning element.
 const on = (element, event, callback) => {
   element.addEventListener(event, callback);
-  return () => element.removeEventListener(event, callback);
-};
+  return element;
+}
 
-// Bind an event handler for a list of events to an element.
-const onAny = (element, events, callback) => {
-  events.forEach(event => element.addEventListener(event, callback));
-  return () =>
-    events.forEach(event => element.removeEventListener(event, callback));
+// Remove an event handler from an element, returning element.
+const off = (element, event, callback) => {
+  element.addEventListener(event, callback);
+  return element;
+}
+
+// Bind an object full of event handlers, where key is the event name.
+// Returns an unbinding function to remove the listeners.
+const events = (element, events) => {
+  reducekv(events, on, element);
+  // Call this function to detach listeners
+  return () => reducekv(events, off, element);
 }
 
 const pos2d = (element, x, y) =>
@@ -115,3 +122,5 @@ const getRandomValue = (o) => o[getRandomKey(o)];
 
 const fps = (begin, end) => Math.round(1000 / (end - begin));
 
+const getJson = (url) =>
+  fetch(url).then(response => response.json());
