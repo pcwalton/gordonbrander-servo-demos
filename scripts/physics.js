@@ -12,7 +12,7 @@ var COLORS = {
 // I guess we don't have window.innerWidth?
 var WIDTH = 1000;
 var HEIGHT = 1000;
-var NUM_PARTICLES = 10;
+var NUM_PARTICLES = 1500;
 
 // Create a physics instance which uses the Verlet integration method
 var physics = new Physics();

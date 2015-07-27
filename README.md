@@ -4,4 +4,6 @@ Kick off the demo server:
 
     make run
 
-...then, open <http://localhost:8000>.
+...then
+
+    ./mach run --release http://localhost:8000/physics/

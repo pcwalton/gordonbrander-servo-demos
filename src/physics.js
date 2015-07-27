@@ -10,7 +10,7 @@ const COLORS = {
 // I guess we don't have window.innerWidth?
 const WIDTH = 1000;
 const HEIGHT = 1000;
-const NUM_PARTICLES = 10;
+const NUM_PARTICLES = 1500;
 
 // Create a physics instance which uses the Verlet integration method
 const physics = new Physics();
