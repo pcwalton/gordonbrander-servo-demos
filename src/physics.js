@@ -64,19 +64,20 @@ updateForce(random(0, WIDTH - 10), random(0, HEIGHT - 10));
 
 // @note Servo does not bubble events or dispatch to `window` or `document` yet.
 // Set listeners directly on element (in this case, `containerEl`).
-on(containerEl, 'mousemove', (event) => {
-  updateForce(event.clientX, event.clientY);
+events(containerEl, {
+  mousemove(event) {
+    updateForce(event.clientX, event.clientY);
+  },
+  mousedown(event) {
+    mouseRepulsion.setRadius(500);
+  },
+  mouseup(event) {
+    mouseRepulsion.setRadius(200);
+  }
 });
 
-on(containerEl, 'mousedown', (event) => {
-  mouseRepulsion.setRadius(500);
-});
-
-on(containerEl, 'mouseup', (event) => {
-  mouseRepulsion.setRadius(200);
-});
-
-loop((t) => {
+var prevt = performance.now();
+loop(t => {
   // Advance physics simulation.
   physics.step();
 
@@ -85,5 +86,8 @@ loop((t) => {
   });
 
   const end = performance.now();
-  text(fpsEl, fps(t, end));
+
+  const endt = performance.now();
+  text(fpsEl, fps(prevt, endt));
+  prevt = endt;
 });
