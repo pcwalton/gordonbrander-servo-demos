@@ -10,7 +10,7 @@ const COLORS = {
 // I guess we don't have window.innerWidth?
 const WIDTH = 1000;
 const HEIGHT = 1000;
-const NUM_PARTICLES = 3000;
+const NUM_PARTICLES = 10;
 
 // Create a physics instance which uses the Verlet integration method
 const physics = new Physics();
@@ -86,6 +86,6 @@ loop((frames, t, dt) => {
 
   // Calc delta between last and current frame start
   // + delta between frame start and frame end.
-  const fps = Math.round(1000 / (dt + (performance.now() - t)))
+  const fps = Math.round(1000 / (dt + (performance.now() - t)));
   text(fpsEl, `FPS: ${fps}`);
 });
