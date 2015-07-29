@@ -78,16 +78,9 @@ var text = function text(element, _text) {
   return element.textContent !== _text ? set(element, 'textContent', _text) : element;
 };
 
-var memoize = function memoize(f) {
-  var cache = {};
-  return function (x) {
-    return cache[x] ? cache[x] : cache[x] = f(x);
-  };
-};
-
-var id = memoize(function (x) {
+var id = function id(x) {
   return document.getElementById(x);
-});
+};
 
 var px = function px(n) {
   return n + 'px';

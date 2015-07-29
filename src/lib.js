@@ -68,12 +68,7 @@ const classnames = (element, classset) =>
 const text = (element, text) =>
   element.textContent !== text ? set(element, 'textContent', text) : element;
 
-const memoize = (f) => {
-  const cache = {};
-  return (x) => cache[x] ? cache[x] : cache[x] = f(x);
-};
-
-const id = memoize((x) => document.getElementById(x));
+const id = (x) => document.getElementById(x);
 
 const px = (n) => n + 'px';
 
