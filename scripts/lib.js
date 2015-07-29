@@ -97,6 +97,10 @@ var translate3d = function translate3d(x, y, z) {
   return 'translate3d(' + x + ',' + y + ',' + z + ')';
 };
 
+var rgba = function rgba(r, g, b, a) {
+  return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + a + ')';
+};
+
 // Create and append an element to parent. Returns an element.
 var el = function el(parent, kind, id, classset) {
   var child = document.createElement(kind);

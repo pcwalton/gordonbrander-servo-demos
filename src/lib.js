@@ -79,6 +79,8 @@ const px = (n) => n + 'px';
 
 const translate3d = (x, y, z) => `translate3d(${x},${y},${z})`;
 
+const rgba = (r, g, b, a) => `rgba(${r}, ${g}, ${b}, ${a})`;
+
 // Create and append an element to parent. Returns an element.
 const el = (parent, kind, id, classset) => {
   const child = document.createElement(kind);
