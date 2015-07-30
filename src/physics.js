@@ -7,6 +7,8 @@ const COLORS = {
   blue: '#6de',
 }
 
+const FRAMESKIP = 2;
+
 // I guess we don't have window.innerWidth?
 const WIDTH = 1000;
 const HEIGHT = 1000;
@@ -80,16 +82,23 @@ const now = () => {
   return 'performance' in window ? window.performance.now() : Date.now();
 }
 
+var fpsSum = 0, fpsCount = 0;
+var frameCount = 0;
 loop((frames, t, dt) => {
-  // Advance physics simulation.
-  physics.step();
+  if (frames++ % FRAMESKIP == 0) {
+    // Advance physics simulation.
+    physics.step();
 
-  physics.particles.forEach(particle => {
-    pos2d(id(particle.id), particle.pos.x, particle.pos.y);
-  });
+    physics.particles.forEach(particle => {
+      pos2d(id(particle.id), particle.pos.x, particle.pos.y);
+    });
+  }
 
   // Calc delta between last and current frame start
   // + delta between frame start and frame end.
   const fps = Math.round(1000 / (dt + (now() - t)));
-  text(fpsEl, `FPS: ${fps}`);
+  fpsSum += fps;
+  fpsCount++;
+  const averageFPS = Math.round(fpsSum / fpsCount * 10.0) / 10.0;
+  text(fpsEl, `Current FPS: ${fps} Average FPS: ${averageFPS}`);
 });

@@ -9,6 +9,8 @@ var COLORS = {
   blue: '#6de'
 };
 
+var FRAMESKIP = 2;
+
 // I guess we don't have window.innerWidth?
 var WIDTH = 1000;
 var HEIGHT = 1000;
@@ -83,16 +85,24 @@ var now = function now() {
   return 'performance' in window ? window.performance.now() : Date.now();
 };
 
+var fpsSum = 0,
+    fpsCount = 0;
+var frameCount = 0;
 loop(function (frames, t, dt) {
-  // Advance physics simulation.
-  physics.step();
+  if (frames++ % FRAMESKIP == 0) {
+    // Advance physics simulation.
+    physics.step();
 
-  physics.particles.forEach(function (particle) {
-    pos2d(id(particle.id), particle.pos.x, particle.pos.y);
-  });
+    physics.particles.forEach(function (particle) {
+      pos2d(id(particle.id), particle.pos.x, particle.pos.y);
+    });
+  }
 
   // Calc delta between last and current frame start
   // + delta between frame start and frame end.
   var fps = Math.round(1000 / (dt + (now() - t)));
-  text(fpsEl, 'FPS: ' + fps);
+  fpsSum += fps;
+  fpsCount++;
+  var averageFPS = Math.round(fpsSum / fpsCount * 10.0) / 10.0;
+  text(fpsEl, 'Current FPS: ' + fps + ' Average FPS: ' + averageFPS);
 });
