@@ -76,6 +76,10 @@ events(containerEl, {
   }
 });
 
+const now = () => {
+  return 'performance' in window ? window.performance.now() : Date.now();
+}
+
 loop((frames, t, dt) => {
   // Advance physics simulation.
   physics.step();
@@ -86,6 +90,6 @@ loop((frames, t, dt) => {
 
   // Calc delta between last and current frame start
   // + delta between frame start and frame end.
-  const fps = Math.round(1000 / (dt + (performance.now() - t)));
+  const fps = Math.round(1000 / (dt + (now() - t)));
   text(fpsEl, `FPS: ${fps}`);
 });
